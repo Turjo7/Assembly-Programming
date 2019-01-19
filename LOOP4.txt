@@ -1,0 +1,74 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+   
+    CR EQU ODH
+    LF EQU OAH
+    MSG1 DB 0DH,0AH,'ENTER FIRST NUMBER: $'
+    MSG2 DB 0DH,0AH, 'ENTER SECOND NUMBER: $'
+    MSG3 DB 0DH,0AH, 'THE RESULT IS: '
+    RES DB ?,0DH,0AH,'$'
+
+
+.CODE
+
+MAIN PROC
+    
+    MOV AX,@DATA
+    MOV DS,AX  
+    
+    MOV CX,3
+    TURJO:
+    
+ 
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H   
+    
+    
+    
+
+    MOV AH,1
+    INT 21H
+    SUB AL,30H
+    MOV BL,AL
+
+    LEA DX,MSG2
+    MOV AH,9
+    INT 21H
+
+
+    MOV AH,1
+    INT 21H
+    SUB AL,30H
+    MOV BH,AL 
+    
+    ADD BL,BH
+    MOV RES,BL
+    ADD RES,30H
+    
+
+    LEA DX,MSG3
+    MOV AH,9
+    INT 21H
+  
+    MOV AH,2
+     
+    
+    LOOP TURJO
+    
+   
+
+    MOV AH,4CH
+    INT 21H
+
+
+    
+
+
+
+
+
+
+MAIN ENDP
+     END MAIN

@@ -1,0 +1,57 @@
+
+; BOI ER 151 PAGE E EI CODE TA ACHE
+
+
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+
+
+.CODE
+
+MAIN PROC   
+    
+    MOV AX,1011101B
+    MOV BX,101B
+    
+    CALL MULTIPLY
+    MOV AH,4CH
+    INT 21H
+    
+MAIN ENDP
+
+MULTIPLY PROC
+    
+    PUSH AX
+    PUSH BX
+    XOR DX,DX
+    
+    
+REPEAT:
+
+     TEST BX,1
+     JZ END_IF
+     
+     ADD DX,AX
+     
+END_IF:
+
+      SHL AX,1
+      SHR BX,1
+      
+      JNZ REPEAT   
+      
+     
+      
+      
+      
+      POP BX
+      POP AX
+      
+      RET
+      
+MULTIPLY ENDP
+
+    END MAIN

@@ -1,0 +1,121 @@
+.MODEL SMALL
+
+
+.STACK 100H
+
+
+.DATA
+     
+     MSG1 DB 0DH,0AH,'ENTER A LETTER : $'
+     MSG0  DB 0DH,0AH,'ENTER 1 FOR ( VOWEL CHECK ) OR ENTER 2 FOR ( CONSONANT CHECK ) : $'
+     
+     MSG2 DB 0DH,0AH,'IT IS VOWEL : $'  
+     MSG3 DB 0DH,0AH,'IT IS NOT VOWEL : $'
+     MSG4 DB 0DH,0AH,'IT IS CONSONANT : $'  
+     MSG5 DB 0DH,0AH,'IT IS NOT CONSONANT : $'
+     
+     
+     
+     
+.CODE
+
+
+MAIN PROC  
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    
+     
+    LEA DX,MSG0
+    MOV AH,9
+    INT 21H 
+    
+    MOV AH,1
+    INT 21H
+    
+    CMP AL,'1'
+    JE VOWEL
+    CMP AL,'2'
+    JE CONSONANT
+    
+    
+    VOWEL:  
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    
+    CMP AL,'A'
+    JE VP 
+     CMP AL,'E'
+    JE VP
+     CMP AL,'I'
+    JE VP
+     CMP AL,'O'
+    JE VP  
+     CMP AL,'U'
+    JE VP  
+    
+    JMP NOTV
+    
+    
+    
+    VP: 
+    LEA DX,MSG2
+    MOV AH,9
+    INT 21H  
+    JMP EXIT  
+    
+    NOTV:
+    LEA DX,MSG3
+    MOV AH,9
+    INT 21H
+    JMP EXIT 
+    
+    CONSONANT:
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    
+    
+    CMP AL,'A'
+    JNGE NC
+    CMP AL,'Z'
+    JNLE NC  
+    
+    LEA DX,MSG4
+    MOV AH,9
+    INT 21H
+    JMP EXIT
+    
+    
+    NC: 
+    LEA DX,MSG5
+    MOV AH,9
+    INT 21H
+     
+    
+           
+           
+           
+           
+    EXIT:
+    MOV AH,4CH
+    INT 21H       
+    
+    
+    
+    
+    
+    
+    
+    
+    MAIN ENDP
+END MAIN

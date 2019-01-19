@@ -1,0 +1,81 @@
+
+; You may customize this and other start-up templates; 
+; The location of this template is c:\emu8086\inc\0_com_template.txt
+
+
+; C = C-D
+; B = B+C
+; A = A+C-B
+; RES = A+C
+
+
+org 100h
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+
+A DB 5
+B DB 2
+C DB 3
+D DB 8
+
+RES DB ?
+
+.CODE  
+
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    
+    
+    MOV BH,C
+    SUB BH,D
+    MOV BL,BH
+    
+    
+    MOV CH,B
+    ADD CH,BH
+    
+    MOV CL,A
+    
+    SUB BH,CH
+    ADD CL,BH
+    
+    ADD CL,BL
+    MOV RES,CL 
+    
+      
+    
+    
+    
+    
+   
+    ADD RES,34H
+    MOV DL,RES
+    MOV AH,2
+    INT 21H
+    
+    
+       EXIT:
+    
+    MOV AH,4CH
+    INT 21H
+    
+    
+
+MAIN PROC
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+ret
+
+
+
+

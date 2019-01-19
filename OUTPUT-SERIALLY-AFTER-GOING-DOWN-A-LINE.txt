@@ -1,0 +1,133 @@
+.MODEL SMALL
+
+.STACK 100H
+
+
+.DATA
+   CR EQU 0DH
+   LF EQU 0AH
+   
+   MSG1 DB CR,LF,'ENTER LETTER: $'  
+   MSG2 DB CR,LF,'NOT A UPPER OR LOWER CASE LETTER $'
+   A DB ? 
+  
+
+.CODE   
+
+
+
+
+
+MAIN PROC
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1 
+    INT 21H
+    
+    CMP AL,'A'
+    JNGE GO
+    CMP AL,'Z'
+    JNLE GO 
+    
+    
+    
+   
+    
+    
+    MOV AH,2 
+    
+    MOV BH,90D
+    SUB BH,AL
+    ADD BH,1
+    SUB CX,CX
+     
+    MOV A,AL
+    MOV DL,0DH
+    INT 21H
+    MOV DL,0AH
+    INT 21H
+    MOV DL,A
+    MOV CL,BH
+    
+    LOOP1:
+    
+    INT 21H
+    INC A
+    MOV DL,A
+   
+    LOOP LOOP1    
+    
+    JMP EXIT 
+    
+    
+         
+   
+    
+    
+    
+    
+    
+    
+    
+    GO:   
+          
+    CMP AL,'a'
+    JNGE GOING
+    CMP AL,'z'
+    JNLE GOING  
+    
+    
+     MOV AH,2 
+    
+    MOV BH,122D
+    SUB BH,AL
+    ADD BH,1
+    SUB CX,CX
+    MOV A,AL
+    MOV DL,0DH
+    INT 21H
+    MOV DL,0AH
+    INT 21H
+    MOV DL,A
+    MOV CL,BH
+    
+    LOOP2:
+     
+    INT 21H
+    INC A
+    MOV DL,A
+   
+    LOOP LOOP2   
+    
+    JMP EXIT 
+    
+    
+    GOING:
+     
+            LEA DX,MSG2
+            MOV AH,9
+            INT 21H
+            
+            JMP EXIT
+    
+    
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+
+    
+    
+    
+    
+    MAIN ENDP
+
+END MAIN
+

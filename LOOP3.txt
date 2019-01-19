@@ -1,0 +1,28 @@
+.MODEL SMALL
+
+.DATA
+
+.CODE
+
+
+MAIN PROC
+    
+    
+    
+    MOV CX,256
+    MOV DL,0
+    
+    TURJO:
+   
+     
+    MOV AH,2
+   
+    INC DL
+    INT 21H
+    
+    LOOP TURJO
+    
+    
+    
+    MAIN ENDP
+END MAIN

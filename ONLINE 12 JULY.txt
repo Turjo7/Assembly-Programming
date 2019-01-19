@@ -1,0 +1,197 @@
+.MODEL SMALL
+
+.STACK 100H
+
+
+.DATA 
+
+    CR EQU 0DH
+    LF EQU 0AH
+        
+    MSG1 DB 'ENTER NUMBER OF ITERATIONS'    
+    MSG2 DB 0DH,0AH, 'ENTER A CHARACTER'
+    MSG3 DB 0DH,0AH, 'CAPITAL LETTER'
+    MSG4 DB 0DH,0AH, 'SMALL LETTER'
+    MSG5 DB 0DH,0AH, 'ODD NUMBER'
+    MSG6 DB 0DH,0AH, 'EVEN NUMBER'
+    MSG7 DB 0DH,0AH, 'ZERO'
+    MSG8 DB 0DH,0AH, 'Too high iterations, try again'    
+    MSG9 DB 0DH,0AH, 'NOT A LETTER OR DIGIT'
+
+
+.CODE
+
+
+
+
+MAIN PROC
+    
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    LEA DX,MSG1 ; TAKING ITERATION NUMBER
+    MOV AH,9
+    INT 21H 
+    
+    
+    MOV AH,1
+    
+    INT 21H   
+    
+    
+    CMP AL,'5'
+    JNLE EXIT  
+    
+    JMP LA
+             
+             
+    LA: 
+    MOV BL,AL
+    SUB BL,30H
+    INT 21H
+    
+    MOV AH,2
+    SUB CX,CX
+    MOV CL,BL
+    MOV DL,048D
+    
+    
+    LOOP1:
+    
+    
+    LEA DX,MSG2
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    
+    CMP AL,'A'
+    JNGE NOTCAPITAL
+    CMP AL,'Z'
+    JNLE NOTCAPITAL
+    
+    JMP CAPITAL
+    
+    
+    
+    
+     
+    
+             
+    
+    NOTCAPITAL:
+    CMP AL,'a'
+    JNGE NOTSMALL
+    CMP AL,'z'
+    JNLE NOTSMALL
+    
+    JMP SMALL
+    
+    
+    NOTSMALL:
+    
+    CMP AL,'1'
+    JE ODD
+    CMP AL,'3'
+    JE ODD
+    CMP AL,'5'
+    JE ODD
+    CMP AL,'7'
+    JE ODD
+    CMP AL,'9'
+    JE ODD
+    
+    JMP EVENTEST 
+    
+    
+    EVENTEST:
+    
+    
+    CMP AL,'2'
+    JE EVEN
+    CMP AL,'4'
+    JE EVEN
+    CMP AL,'6'
+    JE EVEN
+    CMP AL,'8'
+    JE EVEN  
+    
+    JMP ZEROTEST
+    
+    
+    ZEROTEST:
+    CMP AL,'0'
+    JE ZERO
+    
+    JMP EXTREME
+    
+    
+    
+    ZERO:
+    LEA DX,MSG7
+    MOV AH,9
+    INT 21H
+    
+    
+    
+    
+    EVEN:
+    LEA DX,MSG6
+    MOV AH,9
+    INT 21H
+    
+    
+    
+    
+    
+    
+    ODD:
+    LEA DX,MSG5
+    MOV AH,9
+    INT 21H
+    
+             
+             
+    CAPITAL:
+    LEA DX,MSG3
+    MOV AH,9
+    INT 21H 
+    JMP LOOP1
+    
+    SMALL:
+    LEA DX,MSG4
+    MOV AH,9
+    INT 21H
+    
+             
+    EXTREME:
+    LEA DX,MSG9
+    MOV AH,9
+    INT 21H  
+    
+    
+    INC DL
+    DEC CL
+    JNZ LOOP1       
+    
+    
+    EXIT:
+    LEA DX,MSG8
+    MOV AH,9
+    INT 21H 
+    
+    JMP FINAL
+    
+    FINAL:
+    MOV AH,4CH
+    INT 21H        
+    
+    
+    MAIN ENDP
+
+
+
+END MAIN

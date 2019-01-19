@@ -1,0 +1,48 @@
+
+
+
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+    CR EQU 0DH
+    LF EQU 0AH
+    
+    MSG1 DB 'ENTER A LOWER CASE LETTER: $'   ; DOLLAR SIGN INDICATES THE STRING IS FINISHED
+    MSG2 DB 0DH,0AH,'IN UPPER CASE IT IS: '
+    CHAR DB ?,' $'
+
+.CODE
+    
+    MAIN PROC
+        
+        MOV AX,@DATA
+        MOV DS,AX
+        
+        LEA DX,MSG1 ; LEA = LOAD EFFECTIVE ADDRESS
+        MOV AH,9    ; AH = 9 MEANS THE CODE WILL SHOW MSG1 AS A STRING IN THE SCREEN
+        INT 21H
+        
+        MOV AH,1
+        INT 21H
+        SUB AL,20H
+        MOV CHAR,AL 
+        INT 21H
+        
+        
+        
+        
+        
+        LEA DX,MSG2
+        MOV AH,9
+        INT 21H
+        
+        MOV AH,4CH
+        INT 21H
+        
+        
+        
+        
+        
+        MAIN ENDP
+             END MAIN

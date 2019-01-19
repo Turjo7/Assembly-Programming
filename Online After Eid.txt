@@ -1,0 +1,111 @@
+.MODEL SMALL
+.STACK 100H
+
+
+.DATA
+    
+    CR EQU 0DH
+    LF EQU 0AH
+
+    MSG1 DB 'YOU WANT LETTER(L/l) OR DIGIT(D/d)$'
+    MSG2 DB 0DH,0AH,'$'
+    MSG3 DB 0DH,0AH,'OK$'
+    MSG4 DB 0DH,0AH,'NOT A DIGIT$'
+    MSG5 DB 0DH,0AH,'NOT A LETTER$'
+
+
+
+.CODE
+
+
+MAIN PROC
+
+
+
+    MOV AX,@DATA
+    MOV DS,AX
+
+
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H
+
+
+   MOV AH,1
+   INT 21H
+   MOV BL,AL 
+   INT 21H
+
+
+
+   CMP BL,'L'
+   JE BLOCK_1
+   CMP BL,'l'
+   JE BLOCK_1
+
+
+   CMP BL,'D'
+   JE BLOCK_2
+   CMP BL,'d'
+   JE BLOCK_2
+
+
+   BLOCK_1: 
+   
+      MOV AH,1
+      MOV CL,AL
+      INT 21H
+
+     CMP CL,'A'
+     JNGE PRINT_1
+     CMP CL,'Z'
+     JNLE PRINT_1
+     
+     LEA DX,MSG3
+     MOV AH,9
+     INT 21H
+     JMP EXIT   
+     
+   BLOCK_2:   
+   
+      
+      MOV AH,1
+      MOV DL,AL
+      INT 21H
+     
+     CMP DL,'0'
+     JNGE PRINT_2
+     CMP DL,'9'
+     JNLE PRINT_2
+     
+     LEA DX,MSG3
+     MOV AH,9
+     INT 21H
+     JMP EXIT
+     
+     
+        
+   PRINT_1:
+   
+   LEA DX,MSG5
+   MOV AH,9
+   INT 21H
+   JMP EXIT
+
+   PRINT_2:
+
+   LEA DX,MSG4
+   MOV AH,9
+   INT 21H
+   JMP EXIT
+
+
+  EXIT:
+   MOV AH,4CH
+   INT 21H
+
+    
+   MAIN ENDP
+
+
+END MAIN

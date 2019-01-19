@@ -1,0 +1,76 @@
+.MODEL SMALL
+
+.STACK 100H
+
+
+.DATA
+
+         
+.CODE
+
+
+MAIN PROC
+    
+    MOV AX,53
+    XOR BX,BX
+    XOR CX,CX
+    
+    CALL FIND
+    
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+
+FIND PROC 
+   
+    
+    PUSH AX 
+    PUSH BX     ; BX WILL HOLD THE NUMBER OF ONE
+    PUSH CX      ; CX WILL HOLD THE NUMBER OF ZERO
+    
+    
+    CHECK:
+    
+    TEST AX,1
+    
+    JZ ZERO_COUNT
+    
+    INC BX
+    
+    JMP SHIFT
+    
+    
+    
+    
+      
+    
+    ZERO_COUNT:
+    INC CX 
+    
+    SHIFT:
+    
+    SHR AX,1 
+    
+    CMP AX,0
+    JNZ CHECK
+    
+    
+    MOV AH,2
+    MOV DL,CL
+    ADD DL,30H
+    INT 21H   
+    
+     MOV AH,2
+    MOV DL,BL
+    ADD DL,30H
+    INT 21H
+     
+    
+    POP CX
+    POP BX 
+    POP AX
+    
+     RET
+    
+    FIND ENDP
+END MAIN

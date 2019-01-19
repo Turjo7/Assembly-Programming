@@ -1,0 +1,160 @@
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA 
+
+    CR EQU 0DH
+    LF EQU 0AH
+    
+    MSG1 DB 0DH,0AH,' ENTER ITERATION NUMBERS : $'
+    MSG2 DB 0DH,0AH,' ITERATION IS MORE THAN  5 $'
+    MSG3 DB 0DH,0AH,' INPUT A CHARACTER : $'
+    MSG4 DB 0DH,0AH,' CAPITAL LETTER $'
+    MSG5 DB 0DH,0AH,' SMALL LETTER $'
+    MSG6 DB 0DH,0AH,' ODD NUMBER $'
+    MSG7 DB 0DH,0AH,' EVEN NUMBERS $'
+    MSG8 DB 0DH,0AH,' ZERO $'
+    MSG9 DB 0DH,0AH,' NOT A NUMBER OR DIGIT $'
+
+.CODE
+
+MAIN PROC   
+    
+    MOV AX,@DATA ; FETCHING DATA FROM DATA SEGMENT
+    MOV DS,AX
+    
+    LEA DX,MSG1  ; SHOWING MSG1
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    
+    CMP AL,'5'
+    JNLE NVALID
+    
+    JMP OPERATION 
+    
+    OPERATION:
+    
+    SUB AL,30H
+   
+    XOR CX,CX
+    MOV CL,AL
+    
+    WORK:
+    
+    LEA DX,MSG3
+    MOV AH,9
+    INT 21H  
+    
+    MOV AH,1
+    INT 21H
+    
+    CMP AL,'A'
+    JNGE NB
+    CMP AL,'Z'
+    JNLE NB
+    
+    LEA DX,MSG4
+    MOV AH,9
+    INT 21H
+     
+     jmp condition
+    
+    
+    NB:
+    
+    CMP AL,'a'
+    JNGE NC
+    CMP AL,'z'
+    JNLE NC
+    
+    LEA DX,MSG5
+    MOV AH,9
+    INT 21H
+    
+    
+     jmp condition
+    
+    NC:
+    CMP AL,'0'
+    JE ZM
+    SUB AL,30H
+    AND AL,1
+    CMP AL,1
+    JE OP
+    
+   
+    
+    JMP ET
+    int 21h
+    
+    ET:
+    LEA DX,MSG7
+    MOV AH,9
+    INT 21H 
+    
+     jmp condition
+    
+    
+    OT:
+   
+    int 21h
+    
+    OP:
+    LEA DX,MSG6
+    MOV AH,9
+    INT 21H
+    
+   
+     jmp condition
+    
+    ZR:
+    CMP AL,'0'
+    JE ZM
+    
+    LEA DX,MSG9
+    MOV AH,9
+    INT 21H  
+    
+    
+     jmp condition
+    
+    ZM:
+    LEA DX,MSG8
+    MOV AH,9
+    INT 21H  
+    
+    jmp condition
+    
+    
+    
+    
+    condition:
+     ; this block does nothing
+    
+    
+   
+   
+   
+     LOOP WORK
+     JMP EXIT
+     
+    
+    NVALID:
+    LEA DX,MSG2
+    MOV AH,9
+    INT 21H
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    
+    
+    
+    
+    MAIN ENDP
+END MAIN

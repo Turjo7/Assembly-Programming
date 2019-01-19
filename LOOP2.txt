@@ -1,0 +1,37 @@
+.MODEL SMALL
+
+.DATA
+
+    CR EQU 0DH
+    LF EQU 0AH
+    MSG1 DB 0DH,0AH,'I LOVE ASSEMBLY $' 
+    MSG2 DB 0DH,0AH,'I AM A CODER $'
+
+.CODE
+
+
+MAIN PROC
+    
+    
+    MOV AX,@DATA
+    MOV DS,AX 
+    
+    MOV CX,5   
+   
+    
+    TURJO:
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H 
+    
+    LEA DX,MSG2
+    MOV AH,9
+    INT 21H
+    
+    LOOP TURJO
+    
+    
+    
+    MAIN ENDP
+
+END MAIN

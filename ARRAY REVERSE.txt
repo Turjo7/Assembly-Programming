@@ -1,0 +1,42 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+
+.CODE
+
+MAIN PROC
+    PUSH AX
+    PUSH BX ; BX = HOW MANY ELEMENTS OF THE ARRAY
+    PUSH CX
+    PUSH SI
+    PUSH DI ; DI POINTS THE nTH WORD IN THE ARRAY
+    
+    
+    
+    MOV DI,SI
+    MOV CX,BX
+    DEC BX
+    SHL BX,1
+    ADD DI,BX
+    SHR CX,1
+    
+    WORK:
+    MOV AX,[SI]
+    XCHG AX,[DI]
+    MOV [SI],AX
+    ADD SI,2
+    DEC DI,2
+    
+    LOOP WORK
+    
+    POP DI
+    POP SI
+    POP CX
+    POP BX
+    POP AX
+    
+    
+    
+    MAIN ENDP
+END MAIN

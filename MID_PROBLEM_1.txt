@@ -1,0 +1,181 @@
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA 
+    MSG1 DB 0DH,0AH,'ENTER STRING : $'  
+    MSG2 DB 0DH,0AH,'STRING LENGTH : $'
+    MSG3 DB 0DH,0AH,'TOTAL NUMBER OF VOWELS : $'  
+    MSG4 DB 0DH,0AH,'TOTAL NUMBER OF CONSONANT : $'
+    MSG5 DB 0DH,0AH,'FIRST SMALL : $' 
+    MSG6 DB 0DH,0AH,'LAST CAPITAL : $' 
+    
+    A DB ?
+    B DB ?  
+    
+    
+
+.CODE
+
+
+MAIN PROC
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H
+    
+    MOV CH,0
+    MOV CL,0  
+    MOV BH,0
+    
+   WHILE:
+   MOV AH,1
+   INT 21H
+   
+   CMP AL,0DH
+   JE ENDWHILE
+   JMP COUNT
+   
+   
+   COUNT:
+   INC CH
+   
+   CMP AL,'a'
+   JNGE VOWEL
+   CMP AL,'z'
+   JNLE VOWEL
+   
+   
+   
+   
+   
+   VOWEL:
+   
+   CMP AL,'A'
+   JE VCOUNT
+   CMP AL,'E'
+   JE VCOUNT
+   CMP AL,'I'
+   JE VCOUNT
+   CMP AL,'O'
+   JE VCOUNT
+   CMP AL,'U'
+   JE VCOUNT
+            
+   CMP AL,'a'
+   JE VCOUNT
+   CMP AL,'e'
+   JE VCOUNT
+   CMP AL,'i'
+   JE VCOUNT
+   CMP AL,'o'
+   JE VCOUNT
+   CMP AL,'u'
+   JE VCOUNT 
+      
+      
+   JMP CCOUNT   
+   
+   
+   VCOUNT:
+   INC CL 
+   
+   JMP CALL
+   
+   CCOUNT:
+   
+   CMP AL,'A'
+   JNGE CALL
+   CMP AL,'Z'
+   JNLE CALL   
+   
+   MOV B,AL
+   
+   
+   
+   
+   INC BH  
+   
+   CALL:
+           
+   
+   
+   
+   
+   
+   
+   
+   
+   JMP WHILE   
+   
+   
+  
+   
+   
+   ENDWHILE:
+   LEA DX,MSG2
+   MOV AH,9
+   INT 21H
+   
+   MOV DL,CH
+   ADD DL,30H
+   MOV AH,2
+   INT 21H 
+   
+   
+   
+   LEA DX,MSG3
+   MOV AH,9
+   INT 21H
+   
+   MOV DL,CL
+   ADD DL,30H
+   MOV AH,2
+   INT 21H  
+   
+   
+   
+   LEA DX,MSG4
+   MOV AH,9
+   INT 21H  
+   
+   
+   SUB CH,CL
+   MOV DL,CH
+   
+   ;MOV DL,BH
+   ADD DL,30H
+   MOV AH,2
+   INT 21H   
+   
+    LEA DX,MSG5
+   MOV AH,9
+   INT 21H
+   
+   MOV DL,A
+   
+   MOV AH,2
+   INT 21H 
+   
+   
+   LEA DX,MSG6
+   MOV AH,9
+   INT 21H
+   
+   MOV DL,B
+   MOV AH,2
+   INT 21H
+   
+   
+   MOV AH,4CH
+   INT 21H
+   
+    
+    
+    
+    
+    MAIN ENDP
+END MAIN

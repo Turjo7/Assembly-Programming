@@ -1,0 +1,26 @@
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+
+.CODE
+
+MAIN PROC
+    
+     XOR AX,AX
+     MOV CX,16
+     
+     TOP:
+     
+     ROL BX,1
+     JNC NEXT    ; JUMP IF NO CARRY = jnc 
+     INC AX
+     
+     
+     NEXT : 
+     LOOP TOP
+    
+    
+    MAIN ENDP
+END MAIN

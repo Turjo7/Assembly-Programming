@@ -1,0 +1,68 @@
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+    CR EQU 0DH
+    LF EQU 0AH
+    
+    MSG1 DB 0DH,0AH,'ENTER N : $'
+
+.CODE  
+
+MAIN PROC
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1  
+    INT 21H
+            
+    SUB AL,30H        
+    SUB CX,CX 
+    MOV BH,1
+    MOV BL,2
+    MOV CL,AL  
+    SUB CL,1
+    
+    
+    SUM:
+    ADD BH,BL
+    CMP BH,9
+    JNLE OPERATION
+    
+    JMP WORK
+    
+    
+    
+    OPERATION:
+    SUB BH,10 
+     
+    
+    WORK:    
+    INC BL
+    
+    
+    LOOP SUM 
+    
+    ADD BH,30H
+    MOV DL,BH
+    MOV AH,2
+    INT 21H
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    MAIN ENDP
+END MAIN

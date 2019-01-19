@@ -1,0 +1,38 @@
+.MODEL SMALL
+
+.STACK 100H
+
+
+.DATA  
+   ARRAY1 DW 10,20,30,40,50
+   ARRAY2 DW 1,2,3,4,5
+   
+
+.CODE
+
+
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    LEA SI,ARRAY1
+    LEA DI,ARRAY2
+    MOV CX,5  
+             
+             SWAP:
+            MOV AX,[SI]
+            MOV BX,[DI]
+            MOV [SI],BX
+            MOV [DI],AX
+            INC SI
+            INC SI
+            INC DI
+            INC DI    
+            LOOP SWAP
+            MOV AH,4CH
+            INT 21H
+   
+    
+    
+    
+    MAIN ENDP
+END MAIN

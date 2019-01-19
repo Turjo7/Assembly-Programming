@@ -1,0 +1,49 @@
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA 
+
+   W DW 1,2,3,4,5,6,7,8,9
+
+.CODE
+
+MAIN PROC    
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    XOR BX,BX
+    LEA SI,W
+    MOV CX,9
+    
+    WORK:
+    MOV AL,[SI]
+    TEST AL,1
+    JZ EVEN 
+    
+    ADD BH,AL          ; BH CONTAINS SUM OF ODD
+    
+    JMP NEXT
+    
+    EVEN:
+    ADD BL,AL    ; BL CONTAINS SUM OF EVEN
+    
+    NEXT:
+    ADD SI,2
+    
+    LOOP WORK
+    
+    SUB BH,BL        ;BH -BL FINDING THE RANGE
+    MOV AH,2
+    MOV DL,BH
+    ADD DL,30H
+    INT 21H
+    
+    MOV AH,4CH
+    INT 21H  
+    
+    
+    
+    MAIN ENDP
+END MAIN

@@ -1,0 +1,112 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+
+    A DB ?
+    B DB ?
+    C DB ? 
+
+    CR EQU 0DH
+    LF EQU OAH
+    MSG1 DB 'INPUT FIRST NUMBER A: $' 
+    MSG2 DB 0DH,0AH,'INPUT SECOND NUMBER B: $'
+    MSG3 DB 0DH,0AH,'INPUT THIRD NUMBER C: $'
+    
+    MSG4 DB 0DH,0AH,'A IS THE BIGGEST$'
+    MSG5 DB 0DH,0AH, 'B IS THE BIGGEST$'
+    MSG6 DB 0DH,0AH, 'C IS THE BIGGEST$'
+
+
+.CODE 
+
+MAIN PROC 
+    
+    MOV AX,@DATA
+    MOV DS,AX      
+    
+    LEA DX ,MSG1    ; SHOWING THE FIRST MESSAGE
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1        ; TAKING INPUT OF THE FIRST NUMBER IN VARIABLE A
+    INT 21H
+    MOV A,AL
+    
+    LEA DX,MSG2      ;  SHOWING THE SECOND MESSAGE
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1      ; TAKING INPUT OF THE SECOND NUMBER IN VARIABLE B
+    INT 21H
+    MOV B,AL
+    
+    LEA DX,MSG3        ; SHOWING THE THIRD MESSAGE
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1          ; TAKING INPUT OF THE THIRD NUMBER IN VARIABLE C
+    INT 21H
+    MOV C,AL   
+    
+    MOV BL,A           ; FROM VARIABLE A, THE VALUE IS SET TO REGISTER BL
+    MOV BH,B           ; FROM VARIABLE B, THE VALUE IS SET TO REGISTER BH
+    
+    MOV CL,C           ; FROM VARIABLE C, THE VALUE IS SET TO REGISTER CL
+    
+    
+    
+    CMP BL,BH        
+    JGE BL_VAR 
+    
+    
+    BH_VAR:
+    CMP BH,CL
+    JGE BH1_VAR  
+     
+    LEA DX,MSG6  
+    MOV AH,9
+    INT 21H
+    JMP EXIT
+       
+    
+    
+    
+    
+    BH1_VAR:
+    
+    LEA DX,MSG5  
+    MOV AH,9
+    INT 21H
+    JMP EXIT
+    
+    
+    BL_VAR:
+    CMP BL,CL
+    JGE BL1_VAR  
+    
+    LEA DX,MSG6  
+    MOV AH,9
+    INT 21H
+    JMP EXIT
+    
+    BL1_VAR: 
+    LEA DX,MSG4  
+    MOV AH,9
+    INT 21H 
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    
+    
+    
+    
+    
+MAIN ENDP
+
+
+
+    END MAIN
+    

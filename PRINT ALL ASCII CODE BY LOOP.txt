@@ -1,0 +1,30 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+
+.CODE
+
+MAIN PROC
+    
+    MOV AH,2
+    
+    MOV CX,256  ; CX IS THE LOOP COUNTER
+    
+    MOV DL,0
+    
+    
+    
+    LOOP:
+    INT 21H
+    INC DL  ; DL++
+    DEC CX  ; CX --
+    JNZ LOOP ; JNZ = JUMP IF NOT ZERO
+    
+    MOV AH,4CH
+    INT 21H
+    
+    
+    
+    MAIN ENDP
+END MAIN

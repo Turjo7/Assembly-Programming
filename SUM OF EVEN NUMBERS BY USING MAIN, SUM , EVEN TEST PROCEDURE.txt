@@ -1,0 +1,74 @@
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+    W DW 1,2,3,4,5  
+    A DB 0
+
+.CODE
+
+MAIN PROC 
+    
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    CALL FIND  
+    
+    MOV AH,2
+    MOV DL,BH
+    ADD DL,30H
+    INT 21H
+    
+    
+    MOV AH,4CH
+    INT 21H
+    
+    MAIN ENDP
+
+FIND PROC
+    
+    PUSH CX
+    PUSH SI
+    
+    LEA SI,W
+    MOV CX,5
+    
+    WORK:
+    MOV BL,[SI]
+    TEST BL,1
+    JZ EVEN_SUM 
+    JMP NEXT
+    
+    
+    EVEN_SUM: 
+    
+    CALL SUM 
+   
+    
+    NEXT:
+    ADD SI,2
+    LOOP WORK 
+    
+    
+    POP SI
+    POP CX
+    
+    
+    RET
+    FIND ENDP
+
+SUM PROC   
+   
+    PUSH BX
+   
+    ADD A,BL
+    POP BX  
+    MOV BH,A
+  
+    
+    RET 
+   
+    SUM ENDP 
+END MAIN
+    

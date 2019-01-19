@@ -1,0 +1,19 @@
+.MODEL SMALL
+
+
+.STACK 100H
+
+.DATA
+
+.CODE
+
+MAIN PROC
+    
+    MOV DH,8AH
+    MOV CL,2
+    SHR DH,CL
+    
+    
+    MAIN ENDP
+
+END MAIN

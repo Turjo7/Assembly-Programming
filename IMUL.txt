@@ -1,0 +1,21 @@
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+
+.CODE
+
+MAIN PROC
+    
+    MOV AX,5
+    MOV CX,10
+    
+    IMUL CX
+    
+    
+    
+    MAIN ENDP
+
+END MAIN
+

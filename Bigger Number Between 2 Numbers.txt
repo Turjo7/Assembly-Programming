@@ -1,0 +1,83 @@
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+   CR EQU ODH
+    LF EQU OAH
+    MSG1 DB 'ENTER FIRST NUMBER: $'  ; DECLARING FIRST STRING
+    MSG2 DB 0DH,0AH, 'ENTER SECOND NUMBER: $'      ; DECLARING SECOND STRING
+    MSG3 DB 0DH,0AH, 'THE BIGGER NUMBER: '         ; DECLARING THIRD STRING
+    RES DB ?,'$'
+    
+.CODE
+
+MAIN PROC         
+    MOV AX,@DATA       ; LOADING ADDRESS FROM DATA SEGMENT
+    MOV DS,AX
+    
+    LEA DX,MSG1        ; LOAD EFFECTIVE ADDRESS FOR MESSAGE1
+    MOV AH,9
+    INT 21H
+    
+    
+    MOV AH,1            ; TAKING INPUT OF THE FIRST NUMBER
+    INT 21H
+    MOV BL,AL
+    
+    LEA DX,MSG2         ; LOAD EFFECTIVE ADDRESS FOR MESSAGE2
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1           ; TAKING INPUT OF THE SECOND NUMBER
+    INT 21H
+    MOV BH,AL
+    
+    CMP BL,BH          ; CMP IS A COMMAND IT COMPARES 2 NUMBERS
+    JG L1              ; JG MEANS DEFINING A LABEL
+    
+    L2:                   ; L2 LABEL IS EXECUTED IF BH>BL
+    
+    
+    LEA DX,MSG3
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,2
+    MOV DL,BH
+    MOV RES,DL
+    
+    INT 21H
+    JMP EXIT   ; AFTER SHOWING THE BIGGER NUMBER THE CODE WILL EXIT 
+    
+    
+    L1:      ; L1 LABEL IS EXECUTED IF BL>BH
+    LEA DX,MSG3
+    MOV AH,9
+    INT 21H  
+    
+    MOV AH,2
+    MOV DL,BL
+    MOV RES,DL
+    INT 21H
+    JMP EXIT 
+    
+    
+    EXIT:
+    
+    MOV AH,4CH
+    INT 21H
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    MAIN ENDP
+
+END MAIN
